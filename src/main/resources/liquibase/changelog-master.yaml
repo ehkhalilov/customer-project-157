@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/migrations/001-add-new-customers.sql
+  - include:
+      file: liquibase/migrations/002-delete-customers.sql
+  - include:
+      file: liquibase/migrations/003-create-payments.sql
