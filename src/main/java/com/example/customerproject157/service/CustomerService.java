@@ -6,6 +6,7 @@ import com.example.customerproject157.exception.NotFoundException;
 import com.example.customerproject157.mapper.CustomerMapper;
 import com.example.customerproject157.model.CustomerDto;
 import com.example.customerproject157.model.CustomerLightDto;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class CustomerService {
     private final CustomerClient customerClient;
 
     public List<CustomerDto> getCustomers() {
-        System.out.println(customerClient.hello());
+//        System.out.println(customerClient.hello());
 
         return customerRepository.findAll()
                 .stream().map(customerMapper::mapToDto).toList();
@@ -32,6 +33,7 @@ public class CustomerService {
         return customerRepository.findCustomerSurnamesByName(name);
     }
 
+    @Transactional
     public CustomerDto getCustomer(Integer customerId) {
         log.info("ActionLog.getCustomer.start customerId {}", customerId);
         var customerEntity = customerRepository.findById(customerId).orElseThrow(
@@ -41,6 +43,7 @@ public class CustomerService {
                 }
 
         );
+        customerEntity.setAge(50);
         log.info("ActionLog.getCustomer.end customerId {}", customerId);
 
         return customerMapper.mapToDto(customerEntity);
